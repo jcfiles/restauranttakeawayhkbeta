@@ -1,0 +1,56 @@
+{% extends "customer_base.html" %}
+{% block content %}
+
+<section id="customersettings">
+	<div class="container">
+		<div class="row" >
+			<div class="col-md-6">
+
+				<h1>Customer Settings page</h1>
+
+					<!--MESSAGE FLASHING EXAMPLE -->
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<ul>
+						{% for message in messages %}
+						  <li><strong>{{message}}</strong></li>
+						  {% endfor %}
+						</ul>
+					{% endif %}
+				{% endwith %}
+
+				<form action='#' method='POST'>
+					<table >
+						<tr>
+							<td>Username:</td>
+							<td ><input type='text' name='username' value="{{customer.username}}"></td>
+						</tr>
+						<tr>
+							<td>Password:</td>
+							<td><input type='password' name='password'></td>
+						</tr>
+						<tr>
+							<td>Reconfirm password:</td>
+							<td><input type='password' name='reconfirm_password'></td>
+						</tr>
+						<tr>
+							<td>Email address:</td>
+							<td><input type='text' name='email' value="{{customer.email}}"></td>
+						</tr>
+						<tr>
+							<td>Preferred delivery address:</td>
+							<td><input type='text' name='preferred_delivery_address' value="{{customer.preferred_delivery_address}}"></td>
+						</tr>
+						<tr>
+							<td><input type='submit' value='Submit'></td>
+							<td><a href='#'>Cancel</a></td>
+						</tr>
+					</table>
+				</form>
+			
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

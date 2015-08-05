@@ -1,0 +1,41 @@
+{% extends "staff_base.html" %}
+{% block content %}
+
+<style>
+input {
+	color: #000000
+}
+</style>
+
+<section id="staffeditmenuitems">
+	<div class="container">
+		<div class="row" >
+			<div class="col-md-12">
+				
+				<table>
+					<tr>
+					<td><strong>Menuitem ID:</strong></td>
+					<td><strong>Menu item name</strong></td>
+					<td><strong>Price</strong></td>
+					<td><strong>Description</strong></td>
+					</tr>
+					{% for menuitem in menuitems %}
+						<form action="#" method="POST">
+							<tr>
+							<td><strong>{{menuitem.id}}</strong></td>
+							<input type="hidden" name="menuitem_id" value="{{menuitem.id}}">
+							<td><input type="text" name="menuitem_name" value="{{menuitem.name}}"></td>
+							<td>$<input type="text" name="menuitem_price" value="{{menuitem.price}}"></td>
+							<td><input type="text" name="menuitem_description" value="{{menuitem.description}}"></td>
+							<td><input type="submit" value="Submit Change"></td>
+							</tr>
+						</form>
+					{% endfor %}
+				</table>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

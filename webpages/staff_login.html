@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="stafflogin">
+	<div class="container">
+		<div class="row">
+			<h1>Welcome to staff login page!</h1>
+
+			<!--MESSAGE FLASHING EXAMPLE -->
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul>
+					{% for message in messages %}
+					  <li><strong>{{message}}</strong></li>
+					  {% endfor %}
+					</ul>
+				{% endif %}
+			{% endwith %}
+
+			<form action='#' method='POST'>
+				<table>
+					<tr>
+						<td>username:</td>
+						<td><input type='text' name='username'></td>
+					</tr>
+					<tr>
+						<td>password:</td>
+						<td><input type='password' name='password'></td>
+					</tr>
+					<tr>
+						<td><input type='submit' value='Submit'></td>
+						<td><a href='/mainpage'>Cancel</a></td>
+					</tr>
+				</table>
+			</form>
+				
+		</div>
+	</div>
+</section>
+
+{% endblock %}

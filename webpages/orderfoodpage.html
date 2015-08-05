@@ -1,0 +1,131 @@
+{% extends "customer_base.html" %}
+{% block content %}
+
+<!-- script jquery.min.js required to show/hide menuitems of different restaurants -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- script onLoadFunctions to hide the class restaurant_menuitems by default -->
+<script type="text/javascript">
+  function onLoadFunctions() {
+    $("div.restaurant_menuitems").hide();
+	$("h4.restaurants_in_cart").hide();
+  }
+  window.onload = onLoadFunctions;
+</script>
+
+<!-- the script is activated after items are added to the cart -->
+<script type="text/javascript">
+  $(document).ready(function(){
+	$("button.menuitem").click(function(){
+		var restaurantid = $(this).attr("restaurantid");
+		$("div.cart").children("h4#" + restaurantid).show(); // show restaurant name
+		$("div.cart").children("ol#" + restaurantid).append("<li name='menuitem_id' id='" + $(this).attr("id") + "'>" + " " + $(this).attr("menuitemname") + ", $" + $(this).attr("menuitemprice") + "<input name='menuitem_id'" + " type='checkbox' checked=true hidden=true class='checkedmenuitemstocart' value=" + $(this).attr("id") + "></li>"); 		// hide checkbox by hidden=true. check the checkbox by checked=true
+		$('div.cart').children('ol#' + restaurantid).children("input.checkedmenuitemstocart").hide()
+	});
+  });
+</script>
+
+<!-- the script is activated after items are added to the cart -->
+<script type="text/javascript">
+	function clearselectedmenuitems() {
+		$('div.cart').children('ol').children("li").remove();
+		$("div.cart").children("h4").hide();
+	}
+</script>
+
+    <section id="orderfoodpage">
+		<div class="container">
+			<div class="row" >
+				<h1 class="text-center">Order Food</h1>
+				<!-- some blank vertical space of 20px-->
+				<div class="col-xs-12" style="height:20px;"></div>
+			</div>		
+		</div>
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-3">
+					<h4>Restaurants</h4>
+					<ol class="nav nav-pills nav-stacked" type='1'>
+						
+						{% for restaurant in restaurants %}
+							<script>
+							/* To show or hide restaurants and their menu items */
+								$(document).ready(function(){
+									$("a#restaurant_vertical_pill{{restaurant.id}}").click(function(){
+
+										/* use if else to show or hide restaurants. 
+										Two scenarios:
+											1. if restaurant_vertical_pill has already been selected, and if the customer clicks this restaurant_vertical_pill, then you hide the restaurant_{{restaurant.id}}_menuitems
+											
+											2. if restaurant_vertical_pill1 has already been selected, and if the customer clicks on another restaurant_vertical_pill2, then you hide the restaurant_{{restaurant.id}}_menuitems1, and then show the restaurant_{{restaurant.id}}_menuitems2
+										*/
+										var restaurantobject = $("a#restaurant_vertical_pill{{restaurant.id}}");
+
+										if ($(restaurantobject.attr("value") == "isselected")){
+											$(restaurantobject).attr("value","isnotselected");
+											$("div#restaurant_{{restaurant.id}}_menuitems").hide();
+										}
+
+										if ($(restaurantobject.attr("value") == "isnotselected")) {
+											// you want to hide the navbar you previously selected as well
+											$("a.restaurants_shown_on_left_menu").attr("value","isnotselected");
+											// hide all menuitems shown on screen
+											$("div.restaurant_menuitems").hide();
+											$(restaurantobject).attr("value","isselected");
+											$("div#restaurant_{{restaurant.id}}_menuitems").show();
+										}
+/**/
+									});
+								});
+							</script>
+							<li><a class="restaurants_shown_on_left_menu" id="restaurant_vertical_pill{{restaurant.id}}" value="isnotselected">{{restaurant.name}}</a></li>
+						{% endfor %}
+					</ol>
+				</div>
+				<div class="col-md-6">
+					<ol type='1'>
+						{% for restaurant in restaurants %}	
+							<div class="restaurant_menuitems" id="restaurant_{{restaurant.id}}_menuitems">{{restaurant.name}}
+								<ol type='1'>
+									{% for menuitem in menuitems %}
+										{% if restaurant.id == menuitem.restaurant_id %}
+											<li>
+												{{menuitem.name}}, ${{menuitem.price}}, {{menuitem.description}}
+												<!-- clicking this button adds the menuitems to the right hand side. See $(document).ready(function(){}) above. -->
+												<button class="menuitem" id="{{menuitem.id}}" menuitemname="{{menuitem.name}}" menuitemprice = "{{menuitem.price}}" restaurantname="{{restaurant.name}}" restaurantid="{{restaurant.id}}">Add</button>
+											</li>
+										{% endif %}
+									{% endfor %}	
+								</ol>
+							</div>
+						{% endfor %}
+					</ol>
+				</div>
+				<div class="col-md-3">
+					<form action="#" method='POST'>
+						<div class="cart">
+							{% for restaurant in restaurants %}	
+								<h4 class="restaurants_in_cart" id="{{restaurant.id}}">{{restaurant.name}}</h4>
+								<ol id="{{restaurant.id}}">
+								</ol>
+							{% endfor %}
+						</div>
+						<input type="submit" value="Proceed to Cart">
+					</form>
+					
+					<a href="javascript:clearselectedmenuitems();">
+						<button value="Reset">Reset</button>
+					</a>
+					<!-- some blank vertical space of 30px (20px + 10px)-->
+					<div style="height:20px;"></div>
+					<div style="height:10px;"></div>
+					<h4>Delivery address</h4>
+					<p>{{customer.preferred_delivery_address}}</p>
+					<a href="/customersettings"><button value="Change">Change delivery address</button></a>
+				</div>
+			</div>
+		</div>
+    </section>
+
+{% endblock %}

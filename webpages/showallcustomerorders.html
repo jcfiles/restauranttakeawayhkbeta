@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for customerorder in customerorders %}
+	<p>Customer_username:{{customerorder.customer_username}}
+	<br>Customer_id:{{customerorder.customer_id}}<br>
+	restaurant_id:{{customerorder.restaurant_id}}<br>
+	place_order_time:{{customerorder.place_order_time}}</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "customer_base.html" %}
+{% block content %}
+
+<section id="customerpurchasehistory">
+	<div class="container">
+		<div class="row" >
+
+			<h1>Purchase history</h1>
+
+			<p><b>{{customer.username}}</b>, please view your purchase history below:</p>
+			
+			{% for customerorder in customerorders %}
+				<h4>Customer Order id {{customerorder.id}}</h4>
+				<p>Time order placed: {{customerorder.place_order_time}}</p>
+					{% for restaurant in restaurants %}
+						{% if customerorder.restaurant_id == restaurant.id %}
+							<ol type="1">
+								<li><h4>{{restaurant.name}} ID: {{restaurant.id}}</h4>
+									<ol type='a'>
+										{% for purchasedmenuitem in purchasedmenuitems %}
+											{% if purchasedmenuitem.restaurant_id == restaurant.id %}
+												<li><b>{{purchasedmenuitem.name}}</b>. ${{purchasedmenuitem.price}}</li>
+											{% endif %}
+										{% endfor %}
+									</ol>	
+									<p><strong>Price paid: ${{customerorder.total_price}}</strong></p>
+								</li>
+							</ol>
+						{% endif %}
+					{% endfor %}
+			{% endfor %}		
+
+			
+			
+			
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}

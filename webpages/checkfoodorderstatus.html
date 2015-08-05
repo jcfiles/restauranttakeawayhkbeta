@@ -1,0 +1,55 @@
+{% extends "staff_base.html" %}
+{% block content %}
+
+<section id="checkfoodstatuspage">
+	<div class="container">
+		<div class="row" >
+			<h1>Check food order status page for restaurant {{restaurant.name}}</h1>
+
+			<h4>You are {{staff.username}}</h4>
+			<h5>Your restaurant is {{restaurant.name}}</h5>
+			<p>You have the following orders:</p>			
+			<ol type="1">
+				{% for customerorder_id, customerordereditems in customerorders_and_customerordereditems.iteritems() %}
+					<li>Customer Order {{customerorder_id}}</li>
+					<!-- start to print customer name and order time of a customer order. -->
+					{% for customer in customers %}
+						{% for customerorder in customerorders %}
+							{% if customerorder.customer_id == customer.id %}
+								<p><strong>Customer Name:</strong> {{customer.first_name}} {{customer.surname}}<br>
+								<strong>Customer contact number:</strong> {{customer.phone_number}}<br>
+								<strong>Customer email address:</strong> {{customer.username}}<br>
+								<strong>Order time:</strong> {{customerorder.place_order_time}}</p>
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+					<!-- end printing customer name and order time of a customer order -->
+					<ol type="a">
+						<!-- start to print menuitem name and price of a customer order. -->
+						{% for customerordereditem in customerordereditems %}
+							{% for menuitem in menuitems %}
+								{% if customerordereditem.menuitem_id == menuitem.id %}
+								<li>{{menuitem.name}}: ${{menuitem.price}}</li>
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+						<!-- end printing total price of a customer order -->
+						
+						<!-- start to print total price for a customer order. -->
+						{% for customerorder in customerorders %}
+							{% if customerorder.id == customerorder_id %}
+								<h5>Total price: ${{customerorder.total_price}}</h5>
+								<p><b>Delivery address:</b> {{customerorder.customer_delivery_address}}</p>
+							{% endif %}
+						{% endfor %}
+						<!-- end printing total price of a customer order -->
+						
+					</ol>
+				{% endfor %}
+			</ol>
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}

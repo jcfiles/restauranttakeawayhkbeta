@@ -1,0 +1,34 @@
+{% extends "customer_base.html" %}
+{% block content %}
+
+<section id="viewpurchasedfoodpage">
+	<div class="container">
+		<div class="row" >
+
+			<h1>View purchased food page</h1>
+
+			<p><b>{{customer.username}}</b>, you have <b>successfully</b> ordered:</p>
+			{% for restaurant in restaurants %}
+			<ol type="1">
+				<li><h4>{{restaurant.name}}</h4></li>
+					<ol type='a'>
+						{% for cartitem in cartitems %}
+							{% if cartitem.restaurant_id == restaurant.id %}
+								<li><b>{{cartitem.name}}</b>. ${{cartitem.price}}</li>
+							{% endif %}
+						{% endfor %}
+					</ol>	
+			</ol>
+			{% endfor %}
+			<p>{{customer.preferred_delivery_address}}
+				<a href="/customersettings"><button value="Change">Change delivery address</button></a>
+			</p>
+			
+			<p>Total price: ${{total_price}}</p>
+			
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}

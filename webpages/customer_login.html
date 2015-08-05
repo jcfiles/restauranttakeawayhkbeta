@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+    
+	
+    <section id="customerlogin">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+					<h1>Customer Login</h1>
+					<!--MESSAGE FLASHING EXAMPLE -->
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							<ul>
+							{% for message in messages %}
+							  <li><strong>{{message}}</strong></li>
+							  {% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-center">
+					<form role="form" action='#' method='POST'>
+					
+						<div class="row">
+						  <div class="col-lg-4"></div>
+						  <div class="col-lg-4">
+							<font color="#FFFFFF">Email address:</font>
+							<input name='username' type="text" class="form-control">
+						  </div>
+						  <div class="col-lg-4"></div>
+						</div>
+						<!-- some blank space of 5px-->
+						<div class="col-xs-12" style="height:5px;"></div>
+						<div class="row">
+						  <div class="col-lg-4"></div>
+							  <div class="col-lg-4">
+								<font color="#FFFFFF">Password:</font>
+								<input name='password' type="password" class="form-control" id="pwd">
+							  </div>
+						  <div class="col-lg-4"></div>
+						</div>
+						
+						<div class="row">
+							<div class="col-lg-4"></div>
+								<div class="col-lg-4 col-centered">
+								  <div class="checkbox">
+									<font color="#FFFFFF"><input type="checkbox">Remember me</font>
+								  </div>
+								  <button type="submit" class="btn btn-default">Login</button>
+								  <button type="submit" class="btn btn-warning"><a href='/resetpassword'>Reset Password</a></button>
+								</div>
+							<div class="col-lg-4"></div>
+						</div>
+					
+					</form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "customer_base.html" %}
+{% block content %}
+
+    <section id="customerloginsuccess">
+        <div class="container">
+            <div class="row">
+				<h1>{{customer.username}}, you have successfully logged in!</h1>
+				<a href="/orderfoodpage">Go to order your takeaway</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
